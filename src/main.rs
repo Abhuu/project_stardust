@@ -8,11 +8,18 @@ struct Body {
     name: String,
     englishName: String,
     isPlanet: bool,
-    semimajorAxis: u64,
-    perihelion: u64,
-    aphelion: u64,
+    semimajorAxis: f64,
+    perihelion: f64,
+    aphelion: f64,
     eccentricity: f64,
     inclination: f64,
+}
+
+
+#[allow(non_snake_case)]
+#[derive(Debug, Deserialize, Serialize)]
+struct Head {
+    bodies: Vec<Body>,
 }
 
 #[allow(unused_must_use)]
@@ -24,7 +31,7 @@ fn main() {
             break;
         }
         match user_input.len() {
-            0 => get_all(), //TODO
+            0 => get_all(),
             _ => get_detail(user_input),
         };
     }
@@ -35,12 +42,10 @@ async fn get_detail(name: String) -> Result<(), Box<dyn std::error::Error>> {
     let full_url = format!("https://api.le-systeme-solaire.net/rest/bodies/{}", name);
 
     let response = reqwest::get(full_url).await?;
-    
     if response.status() != 200 {
         println!("Error Status: {}", response.status());
         return Ok(());
     }
-    
     // println!("Headers:\n{:#?}", response.headers());
     let json_body = response.text().await?;
     let body: Body = serde_json::from_str(&json_body).unwrap();
@@ -53,16 +58,21 @@ async fn get_detail(name: String) -> Result<(), Box<dyn std::error::Error>> {
 async fn get_all() -> Result<(), Box<dyn std::error::Error>> {
     let full_url = format!("https://api.le-systeme-solaire.net/rest/bodies/");
     let response = reqwest::get(full_url).await?;
+
     // println!("Status: {}", response.status());
     // println!("Headers:\n{:#?}", response.headers());
+
     if response.status() != 200 {
         println!("Error Status: {}", response.status());
         return Ok(());
     }
     let json_body = response.text().await?;
-    // let body = serde_json::from_str(&json_body).unwrap();
 
-    list_all(json_body);
+  
+    let all_info: Head = serde_json::from_str(&json_body).unwrap();
+    println!("{:?}", all_info);
+
+    list_all(all_info);
     Ok(())
 }
 
@@ -78,10 +88,19 @@ fn get_user_input() -> String {
     name.trim().to_string()
 }
 
-fn list_all(detail: String) {
+fn list_all(detail: Head) {
+    let mut counter = 0;
+    for model in detail.bodies {
+        counter = counter + 1;
+        println!("\n*-------------------------------------------------------*");
+        println!("S.no: {}", counter);
+        println!("ID: {}", model.id);
+        println!("Name: {}", model.name);
+        if model.englishName.trim().len() != 0{
+            println!("English name: {}", model.englishName);
+        }
+    }
     println!("\n*-------------------------------------------------------*");
-    println!("{}", detail);
-    println!("*---------------------------------------------------------*");
 }
 
 fn list_body_details(detail: Body) {
