@@ -105,18 +105,17 @@ fn list_all(detail: Head) {
 
 fn list_body_details(detail: Body) {
     println!("\n{:-<60}|", "|");
-    println!("| The english name of the body is {:<26}|", detail.englishName);
-    println!("| The scientific name of the body is {:<23}|", detail.name);
+    println!("| The english name of the body is {:-<26}|", detail.englishName);
+    println!("| The scientific name of the body is {:-<23}|", detail.name);
     match detail.isPlanet {
-        true => println!("| It is a planet {:<43}|",""),
-        false => println!("| It is not a planet {:<39}|", ""),
+        true => println!("| It is a planet {:-<43}|",""),
+        false => println!("| It is not a planet {:-<39}|", ""),
     }
     println!(
-        "| The semi-major axis of {} is around {:<21}|",
-        detail.englishName, detail.semimajorAxis
+        "| The semi-major axis is around (kilometer) {:-<16}|", detail.semimajorAxis
     );
     println!(
-        "| Inclination to ecliptic is around {:<24}|",
+        "| Inclination to ecliptic is around (Degree) {:-<15}|",
         detail.inclination
     );
     println!("{:-<60}|", "|");
