@@ -70,7 +70,7 @@ async fn get_all() -> Result<(), Box<dyn std::error::Error>> {
 
   
     let all_info: Head = serde_json::from_str(&json_body).unwrap();
-    println!("{:?}", all_info);
+    // println!("{:?}", all_info);
 
     list_all(all_info);
     Ok(())
@@ -104,20 +104,20 @@ fn list_all(detail: Head) {
 }
 
 fn list_body_details(detail: Body) {
-    println!("\n*-------------------------------------------------------*");
-    println!("| The english name of the body is {}", detail.englishName);
-    println!("| The scientific name of the body is {}", detail.name);
+    println!("\n{:-<60}|", "|");
+    println!("| The english name of the body is {:<26}|", detail.englishName);
+    println!("| The scientific name of the body is {:<23}|", detail.name);
     match detail.isPlanet {
-        true => println!("| It is a planet"),
-        false => println!("| It is not a planet"),
+        true => println!("| It is a planet {:<43}|",""),
+        false => println!("| It is not a planet {:<39}|", ""),
     }
     println!(
-        "| The semi-major axis of {} is around {} km",
+        "| The semi-major axis of {} is around {:<21}|",
         detail.englishName, detail.semimajorAxis
     );
     println!(
-        "| Inclination to ecliptic is around {} deg",
+        "| Inclination to ecliptic is around {:<24}|",
         detail.inclination
     );
-    println!("*---------------------------------------------------------*");
+    println!("{:-<60}|", "|");
 }
