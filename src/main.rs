@@ -92,15 +92,15 @@ fn list_all(detail: Head) {
     let mut counter = 0;
     for model in detail.bodies {
         counter = counter + 1;
-        println!("\n*-------------------------------------------------------*");
-        println!("S.no: {}", counter);
-        println!("ID: {}", model.id);
-        println!("Name: {}", model.name);
+        println!("\n{:-<62}|", "|");
+        print!("| S.no: {}", counter);
+        print!("\t| ID: {}", model.id);
+        print!("\t| Name: {:<22}|", model.name);
         if model.englishName.trim().len() != 0{
-            println!("English name: {}", model.englishName);
+            print!("\n| English name: {:<46}|", model.englishName);
         }
     }
-    println!("\n*-------------------------------------------------------*");
+    print!("{:-<62}|", "|");
 }
 
 fn list_body_details(detail: Body) {
