@@ -68,7 +68,6 @@ async fn get_all() -> Result<(), Box<dyn std::error::Error>> {
     }
     let json_body = response.text().await?;
 
-  
     let all_info: Head = serde_json::from_str(&json_body).unwrap();
     // println!("{:?}", all_info);
 
@@ -119,4 +118,13 @@ fn list_body_details(detail: Body) {
         detail.inclination
     );
     println!("{:-<60}|", "|");
+}
+
+#[cfg(test)]
+mod tests{
+    //TODO
+    #[test]
+    fn write_test(){
+        //TODO
+    }
 }
