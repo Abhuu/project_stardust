@@ -1,4 +1,4 @@
 # project_stardust
 
-## Read JSON file from website
+## Read and parse JSON data from website https://api.le-systeme-solaire.net/
 
